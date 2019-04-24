@@ -1,12 +1,44 @@
 <template>
-  <div class="home">
-    <div
-      class="banner-image w-full bg-blue-light h-64 flex justify-center items-center text-3xl mb-4"
-      :style="movieBanner"
-    >
-      <h1 class="movie-title text-white">{{ movie.title }}</h1>
+  <div class>
+    <div v-if="isLoading && isError === false" class="loader text-center min-w-screen flex">
+      <div class="my-auto mx-auto">
+        <h2 class>Is loading...</h2>
+        <img class src="../img/5.svg" alt>
+      </div>
     </div>
-    <img :src="posterPath" alt>
+    <div v-else-if="isError" class="loader text-center min-w-screen flex">
+      <div class="my-auto mx-auto">
+        <h2 class>Error...{{error.status}}</h2>
+        <h3>error message: {{error.message}}</h3>
+        <img class src="../img/sad.svg" alt>
+      </div>
+    </div>
+    <div v-else>
+      <div
+        class="banner-image w-full bg-blue-light min-h-64 flex justify-center items-center text-2xl mb-4 p-8"
+        :style="movieBanner"
+      >
+        <h1 class="movie-title text-white">{{ movie.title }}</h1>
+      </div>
+      <div class="flex flex-wrap xs:flex-no-wrap mx-8">
+        <div class="w-full xs:w-1/4 xs:mr-4">
+          <img :src="posterPath" alt>
+        </div>
+        <div class="w-full xs:w-3/4">
+          <h2>Описание фильма:</h2>
+          <p>
+            Жанр:
+            <router-link
+              :to="`/genre/${genre.id}`"
+              v-for="genre of movie.genres"
+              :key="genre.id"
+              class="list-reset"
+            >{{`${genre.name} `}}</router-link>
+          </p>
+          <p>{{movie.overview}}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -15,10 +47,13 @@
 import config from "@/config";
 
 export default {
-  name: "home",
+  name: "MoviePage",
   data() {
     return {
-      movie: {}
+      movie: {},
+      isLoading: true,
+      isError: false,
+      error: {}
     };
   },
   created() {
@@ -39,18 +74,29 @@ export default {
     }
   },
   methods: {
-    fetchData: async function() {
+    fetchData: async function(id = this.$route.params.id) {
       try {
         const res = await fetch(
-          `https://api.themoviedb.org/3/movie/${
-            this.$route.params.id
-          }?api_key=${config.api_key}`
+          `https://api.themoviedb.org/3/movie/${id}?api_key=${config.api_key}`
         );
+        if (res.ok === false) {
+          this.error.status = res.status;
+          this.error.message = res.statusText;
+          throw Error(res.status);
+        }
         this.movie = await res.json();
+        setTimeout(() => (this.isLoading = false), 350);
       } catch (error) {
-        console.log(error);
+        this.isLoading = false;
+        this.isError = true;
+        console.error(error);
       }
     }
+  },
+  async beforeRouteUpdate(to, from, next) {
+    // this.isLoading = true;
+    await this.fetchData(to.params.id);
+    next();
   },
   components: {}
 };
@@ -62,5 +108,8 @@ export default {
 }
 .movie-title {
   text-shadow: 7px 3px 14px black;
+}
+.loader {
+  height: calc(100vh - 78px);
 }
 </style>
