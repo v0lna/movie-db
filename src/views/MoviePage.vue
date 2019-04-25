@@ -15,11 +15,12 @@
   }
 }
 </i18n>
+
 <template>
   <div class>
     <div v-if="isLoading && isError === false" class="loader text-center min-w-screen flex">
       <div class="my-auto mx-auto">
-        <h2 class>{{ $t("loadingMessage") }}</h2>
+        <h2 class >{{ $t("loadingMessage") }}</h2>
         <img class src="../img/5.svg" alt>
       </div>
     </div>
@@ -42,7 +43,7 @@
           <img :src="posterPath" alt>
         </div>
         <div class="w-full xs:w-3/4">
-          <h2>{{ $t("pageTitle") }}</h2>
+          <h2 >{{ $t("pageTitle") }}</h2>
           <p>
             {{ $t("genre") }}
             <router-link
@@ -104,7 +105,7 @@ export default {
           throw Error(res.status);
         }
         this.movie = await res.json();
-        setTimeout(() => (this.isLoading = false), 350);
+        setTimeout(() => (this.isLoading = false), 450);
       } catch (error) {
         this.isLoading = false;
         this.isError = true;
@@ -120,7 +121,9 @@ export default {
   watch: {
   lang(val) {
     this.fetchData();
-    this.$i18n.locale = val
+    console.log(this.$i18n)
+
+    // this.$i18n.locale = val
   }
   },
   components: {}

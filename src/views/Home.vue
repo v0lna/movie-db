@@ -55,9 +55,9 @@ export default {
   },
   watch: {
     lang(val) {
-      this.$i18n.locale = val
+      // this.$i18n.locale = val
       this.fetchData();
-      // console.log(val)
+      console.log(this.$i18n.locale)
     }
   }
 };

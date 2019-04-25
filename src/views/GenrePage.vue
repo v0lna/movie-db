@@ -88,7 +88,7 @@ export default {
     watch: {
     lang(val) {
       this.fetchData();
-      this.$i18n.locale = val;
+      // this.$i18n.locale = val;
 
     }
   }

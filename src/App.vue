@@ -18,8 +18,8 @@
   <div id="app">
     <div class="flex justify-between items-center">
       <div id="nav" class="text-center">
-        <router-link to="/">{{$t("home")}}</router-link>|
-        <router-link to="/about">{{$t("about")}}</router-link>
+        <router-link to="/">{{ $t("home") }}</router-link>|
+        <router-link to="/about">{{ $t("about") }}</router-link>
       </div>
       <div>
         <select v-model="selectedLanguage">
@@ -42,18 +42,23 @@ export default {
   name: "App",
   data() {
     return {
-      selectedLanguage: "ru",
+      selectedLanguage: "ru"
     };
   },
   components: {
     SearchForm
   },
   watch: {
-    selectedLanguage: function(val) {
-      this.$i18n.locale = val
-      
+    selectedLanguage(val) {
+      this.$root.$i18n.locale = val;
+      localStorage.setItem("lang", this.selectedLanguage);
+      console.log(this.$i18n);
     }
-      
+  },
+  created() {
+    if (localStorage.getItem("lang")) {
+      this.selectedLanguage = localStorage.getItem("lang");
+    }
   }
 };
 </script>

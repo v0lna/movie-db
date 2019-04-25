@@ -122,7 +122,7 @@ export default {
     },
     lang(val) {
       this.makeSearch()
-      this.$i18n.locale = val
+      // this.$i18n.locale = val
   }
 }
 };
