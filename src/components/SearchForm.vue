@@ -43,6 +43,7 @@
 import config from "@/config.js";
 export default {
   name: "SearchForm",
+  props: ["lang"],
   data() {
     return {
       searchText: "",
@@ -90,7 +91,7 @@ export default {
           const res = await fetch(
             `https://api.themoviedb.org/3/search/movie?api_key=${
               config.api_key
-            }&query=${this.searchText}`
+            }&query=${this.searchText}&language=${this.lang}`
           );
           const result = await res.json();
 
@@ -105,8 +106,11 @@ export default {
     $route() {
       this.suggestions = [];
       this.searchText = "";
-    }
+    },
+    lang() {
+      this.makeSearch()
   }
+}
 };
 </script>
 

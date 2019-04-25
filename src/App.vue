@@ -5,20 +5,16 @@
         <router-link to="/">Home</router-link>|
         <router-link to="/about">About</router-link>
       </div>
-      <div class="flex items-center">
-        <div>
-          <select>
-            <!-- <option label="Электроник" value="1" selected>Господин Электроник</option> -->
-            <option label="Language" value="1" selected disabled>Language</option>
-            <option>English</option>
-            <option>Русский</option>
-            <option>Українська</option>
-          </select>
-        </div>
-        <SearchForm/>
+      <div>
+        <select v-model="selectedLanguage">
+          <option value="uk">Українська</option>
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+        </select>
       </div>
+      <SearchForm :lang="selectedLanguage"/>
     </div>
-    <router-view/>
+    <router-view :lang="selectedLanguage"/>
   </div>
 </template>
 
@@ -27,6 +23,12 @@
 import SearchForm from "@/components/SearchForm";
 
 export default {
+  name: "App",
+  data() {
+    return {
+      selectedLanguage: "uk",
+    };
+  },
   components: {
     SearchForm
   }

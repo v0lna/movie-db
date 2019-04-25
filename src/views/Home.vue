@@ -1,6 +1,20 @@
+<i18n>
+{
+  "ru": {
+    "pageTitle": "Самые популярные фильмы: "
+  },
+  "uk": {
+    "pageTitle": "Найпопулярніші кінострічки: "
+  },
+  "en": {
+    "pageTitle": "Most Popular Movies: "
+  }
+}
+</i18n>
+
 <template>
   <div class>
-    <h1 class="mb-2 text-center">Самые популярные фильмы:</h1>
+    <h1 class="mb-2 text-center">{{ $t('pageTitle') }}</h1>
     <MoviesList :movies="popularMovies"/>
   </div>
 </template>
@@ -11,7 +25,8 @@ import config from "@/config";
 import MoviesList from "@/components/MoviesList";
 
 export default {
-  name: "home",
+  props: ["lang"],
+  name: "Home",
   data() {
     return {
       popularMovies: []
@@ -23,7 +38,7 @@ export default {
         const res = await fetch(
           `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${
             config.api_key
-          }`
+          }&language=${this.lang}`
         );
         const moviesData = await res.json();
         this.popularMovies = moviesData.results;
@@ -37,6 +52,14 @@ export default {
   },
   created() {
     this.fetchData();
+  },
+  watch: {
+    lang(val) {
+      this.$i18n.locale = val
+      this.fetchData();
+      // console.log(val)
+    }
   }
 };
 </script>
+

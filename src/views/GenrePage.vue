@@ -20,6 +20,7 @@ import MoviesList from "@/components/MoviesList";
 import { Promise } from "q";
 
 export default {
+  props: ["lang"],
   name: "GenrePage",
   data() {
     return {
@@ -34,9 +35,9 @@ export default {
         fetch(
           `https://api.themoviedb.org/3/discover/movie?api_key=${
             config.api_key
-          }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${
+          }&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${
             this.$route.params.genreId
-          }`
+          }&language=${this.lang}`
         )
           .then(genreResponse => {
             return genreResponse.json();
@@ -47,7 +48,7 @@ export default {
         fetch(
           `https://api.themoviedb.org/3/genre/movie/list?api_key=${
             config.api_key
-          }`
+          }&language=${this.lang}`
         )
           .then(res => {
             return res.json();
@@ -70,6 +71,11 @@ export default {
   },
   created() {
     this.fetchData();
+  },
+    watch: {
+    lang() {
+      this.fetchData();
+    }
   }
 };
 </script>

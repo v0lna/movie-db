@@ -47,6 +47,7 @@
 import config from "@/config";
 
 export default {
+  props: ["lang"],
   name: "MoviePage",
   data() {
     return {
@@ -77,7 +78,7 @@ export default {
     fetchData: async function(id = this.$route.params.id) {
       try {
         const res = await fetch(
-          `https://api.themoviedb.org/3/movie/${id}?api_key=${config.api_key}`
+          `https://api.themoviedb.org/3/movie/${id}?api_key=${config.api_key}&language=${this.lang}`
         );
         if (res.ok === false) {
           this.error.status = res.status;
@@ -97,6 +98,11 @@ export default {
     // this.isLoading = true;
     await this.fetchData(to.params.id);
     next();
+  },
+  watch: {
+  lang() {
+    this.fetchData();
+  }
   },
   components: {}
 };
