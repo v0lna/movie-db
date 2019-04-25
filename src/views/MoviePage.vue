@@ -1,15 +1,32 @@
+<i18n>
+{
+  "ru": {
+    "pageTitle": "Описание фильма:",
+    "genre": "Жанр: "
+  },
+  "uk": {
+    "pageTitle": "Опис фільму:",
+    "genre": "Жанр: "
+
+  },
+  "en": {
+    "pageTitle": "Film description:",
+    "genre": "Genre: "
+  }
+}
+</i18n>
 <template>
   <div class>
     <div v-if="isLoading && isError === false" class="loader text-center min-w-screen flex">
       <div class="my-auto mx-auto">
-        <h2 class>Is loading...</h2>
+        <h2 class>{{ $t("loadingMessage") }}</h2>
         <img class src="../img/5.svg" alt>
       </div>
     </div>
     <div v-else-if="isError" class="loader text-center min-w-screen flex">
       <div class="my-auto mx-auto">
-        <h2 class>Error...{{error.status}}</h2>
-        <h3>error message: {{error.message}}</h3>
+        <h2 class>{{$t("error")}}{{error.status}}</h2>
+        <h3>{{ $t("errorMessage") }}{{error.message}}</h3>
         <img class src="../img/sad.svg" alt>
       </div>
     </div>
@@ -25,9 +42,9 @@
           <img :src="posterPath" alt>
         </div>
         <div class="w-full xs:w-3/4">
-          <h2>Описание фильма:</h2>
+          <h2>{{ $t("pageTitle") }}</h2>
           <p>
-            Жанр:
+            {{ $t("genre") }}
             <router-link
               :to="`/genre/${genre.id}`"
               v-for="genre of movie.genres"
@@ -59,6 +76,7 @@ export default {
   },
   created() {
     this.fetchData();
+    
   },
   computed: {
     posterPath() {
@@ -100,8 +118,9 @@ export default {
     next();
   },
   watch: {
-  lang() {
+  lang(val) {
     this.fetchData();
+    this.$i18n.locale = val
   }
   },
   components: {}

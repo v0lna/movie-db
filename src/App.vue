@@ -1,9 +1,25 @@
+<i18n>
+{
+  "ru": {
+    "home": "Главная",
+    "about": "О сайте"
+  },
+  "uk": {
+    "home": "Головна",
+    "about": "Про сайт"
+  },
+  "en": {
+    "home": "Home",
+    "about": "About"
+  }
+}
+</i18n>
 <template>
   <div id="app">
     <div class="flex justify-between items-center">
       <div id="nav" class="text-center">
-        <router-link to="/">Home</router-link>|
-        <router-link to="/about">About</router-link>
+        <router-link to="/">{{$t("home")}}</router-link>|
+        <router-link to="/about">{{$t("about")}}</router-link>
       </div>
       <div>
         <select v-model="selectedLanguage">
@@ -26,11 +42,18 @@ export default {
   name: "App",
   data() {
     return {
-      selectedLanguage: "uk",
+      selectedLanguage: "ru",
     };
   },
   components: {
     SearchForm
+  },
+  watch: {
+    selectedLanguage: function(val) {
+      this.$i18n.locale = val
+      
+    }
+      
   }
 };
 </script>

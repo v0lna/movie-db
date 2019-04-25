@@ -1,3 +1,16 @@
+<i18n>
+{
+  "ru": {
+    "searchText": "Поиск"
+  },
+  "uk": {
+    "searchText": "Пошук"
+  },
+  "en": {
+    "searchText": "Search"
+  }
+}
+</i18n>
 <template>
   <div>
     <div class="flex">
@@ -9,7 +22,7 @@
           id
           v-model="searchText"
           @input="makeSearch"
-          placeholder="Поиск"
+          :placeholder="($t(`searchText`))"
           @keydown.down="downKeyHandler"
           @keydown.up="upKeyHandler"
           @keydown.enter="enterKeyHandler"
@@ -33,7 +46,7 @@
           type="button"
           @click="makeSearch"
           class="px-4 py-2 bg-blue-dark text-white font-bold rounded"
-        >Поиск</button>
+        >{{ $t("searchText") }}</button>
       </div>
     </div>
   </div>
@@ -107,8 +120,9 @@ export default {
       this.suggestions = [];
       this.searchText = "";
     },
-    lang() {
+    lang(val) {
       this.makeSearch()
+      this.$i18n.locale = val
   }
 }
 };

@@ -1,3 +1,16 @@
+<i18n>
+{
+  "ru": {
+    "pageTitle": "Самые популярные фильмы жанра "
+  },
+  "uk": {
+    "pageTitle": "Найпопулярніші кінострічки жанру"
+  },
+  "en": {
+    "pageTitle": "The most popular films of the genre "
+  }
+}
+</i18n>
 <template>
   <div class>
     <div v-if="isLoading" class="loader text-center min-w-screen flex">
@@ -7,7 +20,7 @@
       </div>
     </div>
     <div v-else>
-      <h1 class="mb-2 text-center">Самые популярные фильмы жанра {{genreName}}:</h1>
+      <h1 class="mb-2 text-center">{{ $t("pageTitle") }} {{genreName}}:</h1>
       <MoviesList :movies="genreMovies"/>
     </div>
   </div>
@@ -73,8 +86,10 @@ export default {
     this.fetchData();
   },
     watch: {
-    lang() {
+    lang(val) {
       this.fetchData();
+      this.$i18n.locale = val;
+
     }
   }
 };
