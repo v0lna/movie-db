@@ -1,8 +1,8 @@
 <template>
   <div>
-    <router-link class="block" :to="moviePath">
-      <img :src="posterPath" alt>
-      <h3>{{movie.title}}</h3>
+    <router-link class="block no-underline text-black" :to="moviePath">
+      <img class="posterWidth" :src="posterPath" alt>
+      <h3 class="no-underline">{{movie.title}}</h3>
     </router-link>
   </div>
 </template>
@@ -27,4 +27,9 @@ export default {
 </script>
 
 <style>
+.posterWidth {
+  height: 380px;
+  object-fit: cover;
+  /* width: 244.188px; */
+}
 </style>

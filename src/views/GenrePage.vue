@@ -15,7 +15,7 @@
   <div class>
     <div v-if="isLoading" class="loader text-center min-w-screen flex">
       <div class="my-auto mx-auto">
-        <h2 class>Is loading...</h2>
+        <h2 class>{{ $t("loadingMessage")}}</h2>
         <img class src="../img/5.svg" alt>
       </div>
     </div>
@@ -75,7 +75,9 @@ export default {
             });
           })
       ]).then(() => {
-        this.isLoading = false;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 350);
       });
     }
   },
@@ -85,11 +87,10 @@ export default {
   created() {
     this.fetchData();
   },
-    watch: {
+  watch: {
     lang(val) {
       this.fetchData();
       // this.$i18n.locale = val;
-
     }
   }
 };

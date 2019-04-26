@@ -2,16 +2,22 @@
 {
   "ru": {
     "pageTitle": "Описание фильма:",
-    "genre": "Жанр: "
+    "genre": "Жанр: ",
+    "budget": "Бюджет: ",
+    "productionСompanies": "Компания производитель: "
   },
   "uk": {
     "pageTitle": "Опис фільму:",
-    "genre": "Жанр: "
+    "genre": "Жанр: ",
+    "budget": "Бюджет: ",
+    "productionСompanies": "Компанія виробник: "
 
   },
   "en": {
     "pageTitle": "Film description:",
-    "genre": "Genre: "
+    "genre": "Genre: ",
+    "budget": "Budget: ",
+    "productionСompanies": "Production companies"
   }
 }
 </i18n>
@@ -20,7 +26,7 @@
   <div class>
     <div v-if="isLoading && isError === false" class="loader text-center min-w-screen flex">
       <div class="my-auto mx-auto">
-        <h2 class >{{ $t("loadingMessage") }}</h2>
+        <h2 class>{{ $t("loadingMessage") }}</h2>
         <img class src="../img/5.svg" alt>
       </div>
     </div>
@@ -43,9 +49,17 @@
           <img :src="posterPath" alt>
         </div>
         <div class="w-full xs:w-3/4">
-          <h2 >{{ $t("pageTitle") }}</h2>
-          <p>
-            {{ $t("genre") }}
+          <h2 class="mb-2">{{ $t("pageTitle") }}</h2>
+          <p class="mb-2">
+            <span class="font-bold">{{ $t("budget") }}</span>
+            {{ movie.budget }}$
+          </p>
+          <p class="mb-2">
+            <span class="font-bold">{{ $t("productionСompanies") }}</span>
+            {{ movie.budget }}
+          </p>
+          <p class="mb-2">
+            <span class="font-bold">{{ $t("genre") }}</span>
             <router-link
               :to="`/genre/${genre.id}`"
               v-for="genre of movie.genres"
@@ -77,7 +91,6 @@ export default {
   },
   created() {
     this.fetchData();
-    
   },
   computed: {
     posterPath() {
@@ -97,7 +110,9 @@ export default {
     fetchData: async function(id = this.$route.params.id) {
       try {
         const res = await fetch(
-          `https://api.themoviedb.org/3/movie/${id}?api_key=${config.api_key}&language=${this.lang}`
+          `https://api.themoviedb.org/3/movie/${id}?api_key=${
+            config.api_key
+          }&language=${this.lang}`
         );
         if (res.ok === false) {
           this.error.status = res.status;
@@ -119,12 +134,12 @@ export default {
     next();
   },
   watch: {
-  lang(val) {
-    this.fetchData();
-    console.log(this.$i18n)
+    lang(val) {
+      this.fetchData();
+      console.log(this.$i18n);
 
-    // this.$i18n.locale = val
-  }
+      // this.$i18n.locale = val
+    }
   },
   components: {}
 };
