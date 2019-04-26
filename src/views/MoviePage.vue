@@ -17,7 +17,7 @@
     "pageTitle": "Film description:",
     "genre": "Genre: ",
     "budget": "Budget: ",
-    "productionСompanies": "Production companies"
+    "productionСompanies": "Production companies: "
   }
 }
 </i18n>
@@ -54,20 +54,44 @@
             <span class="font-bold">{{ $t("budget") }}</span>
             {{ movie.budget }}$
           </p>
-          <p class="mb-2">
-            <span class="font-bold">{{ $t("productionСompanies") }}</span>
-            {{ movie.budget }}
-          </p>
+
           <p class="mb-2">
             <span class="font-bold">{{ $t("genre") }}</span>
             <router-link
               :to="`/genre/${genre.id}`"
-              v-for="genre of movie.genres"
+              v-for="(genre, index) of movie.genres"
               :key="genre.id"
-              class="list-reset"
-            >{{`${genre.name} `}}</router-link>
+              class="list-reset no-underline"
+            >
+              {{`${genre.name}`}}
+              <span v-if="( movie.genres[index] !== (movie.genres.length - 1))">,</span>
+            </router-link>
           </p>
-          <p>{{movie.overview}}</p>
+          <p class="mb-2">{{movie.overview}}</p>
+          <div class="mb-2">
+            <span class="font-bold">{{ $t("productionСompanies") }}</span>
+            <ul class="list-reset inline">
+              <li
+                class="inline mx-1"
+                v-for="(company, index) of productiveCompany"
+                :key="`${company.id}${company.name}`"
+              >
+                {{company.name}}
+                <span
+                  v-if="(productiveCompany[index] !== productiveCompany.length - 1)"
+                >,</span>
+              </li>
+            </ul>
+            <div class="my-1 flex flex-row justify-around items-center">
+              <div
+                v-if="company.logo_path != null"
+                v-for="company of productiveCompany"
+                :key="company.id"
+              >
+                <img class="w-ful self-center" :src="company.logo_path" alt>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -86,7 +110,8 @@ export default {
       movie: {},
       isLoading: true,
       isError: false,
-      error: {}
+      error: {},
+      productiveCompany: []
     };
   },
   created() {
@@ -104,6 +129,23 @@ export default {
           config.images.backdrop_sizes[2]
         }${this.movie.backdrop_path})`
       };
+    },
+    prodCompanyBanner() {
+      // console.log(this.movie.production_companies.logo_path);
+      // return `${config.images.secure_base_url}${config.images.logo_sizes[3]}${
+      //   this.movie.production_companies[0].logo_path
+      // }`;
+      const array = [];
+      this.movie.production_companies.forEach(obj => {
+        const newLogo_path = `${config.images.secure_base_url}${
+          config.images.logo_sizes[3]
+        }${obj.logo_path}`;
+        array.push({ ...obj, logo_path: newLogo_path });
+      });
+      console.log(array);
+      // return `${config.images.secure_base_url}${config.images.logo_sizes[3]}${
+      //   this.movie.production_companies.
+      // }`;
     }
   },
   methods: {
@@ -120,6 +162,18 @@ export default {
           throw Error(res.status);
         }
         this.movie = await res.json();
+
+        this.productiveCompany = [];
+        this.movie.production_companies.forEach(obj => {
+          let newLogo_path = null;
+          if (obj.logo_path !== null) {
+            newLogo_path = `${config.images.secure_base_url}${
+              config.images.logo_sizes[2]
+            }${obj.logo_path}`;
+          }
+          this.productiveCompany.push({ ...obj, logo_path: newLogo_path });
+        });
+
         setTimeout(() => (this.isLoading = false), 450);
       } catch (error) {
         this.isLoading = false;
@@ -136,9 +190,24 @@ export default {
   watch: {
     lang(val) {
       this.fetchData();
-      console.log(this.$i18n);
-
+      // console.log(this.$i18n);
       // this.$i18n.locale = val
+
+      //  <div class="mb-2">
+      //             <span class="font-bold">{{ $t("productionСompanies") }}</span>
+      //             <table class>
+      //               <tr
+      //                 class="align-middle border-black border-2"
+      //                 v-for="company of productiveCompany"
+      //                 :key="company.id"
+      //               >
+      //                 <th>{{company.name}}</th>
+      //                 <td>
+      //                   <img v-if="company.logo_path != null" :src="company.logo_path" alt>
+      //                 </td>
+      //               </tr>
+      //             </table>
+      //           </div>
     }
   },
   components: {}
@@ -153,6 +222,6 @@ export default {
   text-shadow: 7px 3px 14px black;
 }
 .loader {
-  height: calc(100vh - 78px);
+  height: calc(80vh - 78px);
 }
 </style>

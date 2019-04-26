@@ -52,7 +52,7 @@ export default {
     selectedLanguage(val) {
       this.$root.$i18n.locale = val;
       localStorage.setItem("lang", this.selectedLanguage);
-      console.log(this.$i18n);
+      // console.log(this.$i18n);
     }
   },
   created() {

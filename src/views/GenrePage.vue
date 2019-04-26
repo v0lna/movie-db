@@ -97,7 +97,7 @@ export default {
 </script>
 <style>
 .loader {
-  height: calc(100vh - 78px);
+  height: calc(80vh - 78px);
 }
 </style>
 
