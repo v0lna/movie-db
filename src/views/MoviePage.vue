@@ -4,20 +4,44 @@
     "pageTitle": "Описание фильма:",
     "genre": "Жанр: ",
     "budget": "Бюджет: ",
-    "productionСompanies": "Компания производитель: "
+    "productionСompanies": "Компании производства: ",
+    "revenue": "Доход: ",
+    "releaseDate": "Дата выхода:",
+    "runtime": "Продолжительность фильма:",
+    "minutes": "мин",
+    "vote_average": "Средняя оценка:",
+    "vote_count": "Количество голосов:",
+    "production_countries": "Страна производства: ",
+    "tagline": "Cлоган: "
   },
   "uk": {
     "pageTitle": "Опис фільму:",
     "genre": "Жанр: ",
     "budget": "Бюджет: ",
-    "productionСompanies": "Компанія виробник: "
+    "productionСompanies": "Компанії виробництва: ",
+    "revenue": "Дохід: ",
+    "releaseDate": "Дата випуску:",
+    "runtime": "Тривалість кінострічки:",
+    "minutes": "хв",
+    "vote_average": "Середня оцінка:",
+    "vote_count": "Кількість голосів:",
+    "production_countries": "Країна виробництва: ",
+    "tagline": "Лозунг: "
 
   },
   "en": {
     "pageTitle": "Film description:",
     "genre": "Genre: ",
     "budget": "Budget: ",
-    "productionСompanies": "Production companies: "
+    "productionСompanies": "Production companies: ",
+    "revenue": "Revenue: ",
+    "releaseDate": "Release date:",
+    "runtime": "Runtime",
+    "minutes": "min",
+    "vote_average": "Average rating:",
+    "vote_count": "Number of votes:",
+    "production_countries": "Production countries: ",
+    "tagline": "Tagline: "
   }
 }
 </i18n>
@@ -48,11 +72,38 @@
         <div class="w-full xs:w-1/4 xs:mr-4">
           <img :src="posterPath" alt>
         </div>
+
         <div class="w-full xs:w-3/4">
           <h2 class="mb-2">{{ $t("pageTitle") }}</h2>
+
           <p class="mb-2">
             <span class="font-bold">{{ $t("budget") }}</span>
             {{ movie.budget }}$
+          </p>
+
+          <p class="mb-2">
+            <span class="font-bold">{{ $t("revenue") }}</span>
+            {{ movie.revenue }}$
+          </p>
+
+          <p class="mb-2">
+            <span class="font-bold">{{ $t("releaseDate") }}</span>
+            {{ movie.release_date }}
+          </p>
+
+          <p class="mb-2">
+            <span class="font-bold">{{ $t("runtime") }}</span>
+            {{ movie.runtime }} {{ $t("minutes") }}
+          </p>
+
+          <p class="mb-2">
+            <span class="font-bold">{{ $t("vote_average") }}</span>
+            {{ movie.vote_average }}
+          </p>
+
+          <p class="mb-2">
+            <span class="font-bold">{{ $t("vote_count") }}</span>
+            {{ movie.vote_count }}
           </p>
 
           <p class="mb-2">
@@ -67,7 +118,22 @@
               <span v-if="( movie.genres[index] !== (movie.genres.length - 1))">,</span>
             </router-link>
           </p>
+
+          <p class="mb-2" v-if="movie.tagline.length > 0">
+            <span class="font-bold">{{ $t("tagline") }}</span>
+            {{ movie.tagline }}
+          </p>
+
           <p class="mb-2">{{movie.overview}}</p>
+
+          <p class="mb-2" v-if="movie.production_countries.length > 0">
+            <span class="font-bold">{{ $t("production_countries") }}</span>
+            <span
+              v-for="(country, index) of movie.production_countries"
+              :key="index"
+            >{{ country.name }},</span>
+          </p>
+
           <div class="mb-2">
             <span class="font-bold">{{ $t("productionСompanies") }}</span>
             <ul class="list-reset inline">
@@ -142,7 +208,7 @@ export default {
         }${obj.logo_path}`;
         array.push({ ...obj, logo_path: newLogo_path });
       });
-      console.log(array);
+      // console.log(array);
       // return `${config.images.secure_base_url}${config.images.logo_sizes[3]}${
       //   this.movie.production_companies.
       // }`;
@@ -190,24 +256,6 @@ export default {
   watch: {
     lang(val) {
       this.fetchData();
-      // console.log(this.$i18n);
-      // this.$i18n.locale = val
-
-      //  <div class="mb-2">
-      //             <span class="font-bold">{{ $t("productionСompanies") }}</span>
-      //             <table class>
-      //               <tr
-      //                 class="align-middle border-black border-2"
-      //                 v-for="company of productiveCompany"
-      //                 :key="company.id"
-      //               >
-      //                 <th>{{company.name}}</th>
-      //                 <td>
-      //                   <img v-if="company.logo_path != null" :src="company.logo_path" alt>
-      //                 </td>
-      //               </tr>
-      //             </table>
-      //           </div>
     }
   },
   components: {}
