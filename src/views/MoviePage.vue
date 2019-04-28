@@ -78,12 +78,12 @@
 
           <p class="mb-2">
             <span class="font-bold">{{ $t("budget") }}</span>
-            {{ movie.budget }}$
+            {{ budget }}
           </p>
 
           <p class="mb-2">
             <span class="font-bold">{{ $t("revenue") }}</span>
-            {{ movie.revenue }}$
+            {{ revenue }}
           </p>
 
           <p class="mb-2">
@@ -150,7 +150,7 @@
             </ul>
             <div class="my-1 flex flex-row justify-around items-center">
               <div
-                v-if="company.logo_path != null"
+                v-if="company.logo_path !== null"
                 v-for="company of productiveCompany"
                 :key="company.id"
               >
@@ -196,22 +196,23 @@ export default {
         }${this.movie.backdrop_path})`
       };
     },
-    prodCompanyBanner() {
-      // console.log(this.movie.production_companies.logo_path);
-      // return `${config.images.secure_base_url}${config.images.logo_sizes[3]}${
-      //   this.movie.production_companies[0].logo_path
-      // }`;
-      const array = [];
-      this.movie.production_companies.forEach(obj => {
-        const newLogo_path = `${config.images.secure_base_url}${
-          config.images.logo_sizes[3]
-        }${obj.logo_path}`;
-        array.push({ ...obj, logo_path: newLogo_path });
-      });
-      // console.log(array);
-      // return `${config.images.secure_base_url}${config.images.logo_sizes[3]}${
-      //   this.movie.production_companies.
-      // }`;
+    budget() {
+      if (this.movie.budget / 1000000000 > 1) {
+        return `${this.movie.budget / 1000000000}$ billion`;
+      } else if (this.movie.budget / 1000000 > 1) {
+        return `${this.movie.budget / 1000000}$ million`;
+      } else {
+        return `${this.movie.budget / 1000}$ thousand`;
+      }
+    },
+    revenue() {
+      if (this.movie.revenue / 1000000000 > 1) {
+        return `${this.movie.revenue / 1000000000}$ billion`;
+      } else if (this.movie.revenue / 1000000 > 1) {
+        return `${this.movie.revenue / 1000000}$ million`;
+      } else {
+        return `${this.movie.revenue / 1000}$ thousand`;
+      }
     }
   },
   methods: {
