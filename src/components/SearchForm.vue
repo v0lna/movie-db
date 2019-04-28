@@ -42,11 +42,7 @@
         </div>
       </div>
       <div class="ml-auto mr-2">
-        <button
-          type="button"
-          @click="makeSearch"
-          class="px-4 py-2 bg-blue-dark text-white font-bold rounded"
-        >
+        <button type="button" class="px-4 py-2 bg-blue-dark text-white font-bold rounded">
           <router-link tag="span" :to="`/search/&query=${this.searchText}`">{{ $t("searchText") }}</router-link>
         </button>
       </div>
@@ -88,6 +84,10 @@ export default {
     enterKeyHandler() {
       if (this.higlightedItem !== null) {
         this.$router.push(`/movie/${this.suggestions[this.higlightedItem].id}`);
+        this.suggestions = [];
+        this.searchText = "";
+      } else {
+        this.$router.push(`/search/&query=${this.searchText}`);
         this.suggestions = [];
         this.searchText = "";
       }

@@ -158,6 +158,15 @@
               </div>
             </div>
           </div>
+          <iframe
+            v-if="this.movie.videos.results.length > 0"
+            width="782"
+            height="439"
+            :src="`https://www.youtube-nocookie.com/embed/${this.movie.videos.results[0].key}`"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
         </div>
       </div>
     </div>
@@ -221,7 +230,7 @@ export default {
         const res = await fetch(
           `https://api.themoviedb.org/3/movie/${id}?api_key=${
             config.api_key
-          }&language=${this.lang}`
+          }&language=${this.lang}&append_to_response=videos`
         );
         if (res.ok === false) {
           this.error.status = res.status;

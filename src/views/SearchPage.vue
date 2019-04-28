@@ -1,13 +1,13 @@
 <i18n>
 {
   "ru": {
-    "pageTitle": "Результаты поиска"
+    "pageTitle": "Результаты поиска по запросу:"
   },
   "uk": {
-    "pageTitle": "Результати пошуку"
+    "pageTitle": "Результати пошуку за запитом:"
   },
   "en": {
-    "pageTitle": "Searching results"
+    "pageTitle": "Search results for the query: "
   }
 }
 </i18n>
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div v-else>
-      <h1 class="mb-2 text-center">{{ $t("pageTitle") }} по запросу: {{ $route.params.searchText }}</h1>
+      <h1 class="mb-2 text-center">{{ $t("pageTitle") }} {{ $route.params.searchText }}</h1>
       <MoviesList :movies="searchMovies"/>
     </div>
   </div>
