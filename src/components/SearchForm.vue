@@ -46,7 +46,9 @@
           type="button"
           @click="makeSearch"
           class="px-4 py-2 bg-blue-dark text-white font-bold rounded"
-        >{{ $t("searchText") }}</button>
+        >
+          <router-link tag="span" :to="`/search/&query=${this.searchText}`">{{ $t("searchText") }}</router-link>
+        </button>
       </div>
     </div>
   </div>
@@ -121,10 +123,10 @@ export default {
       this.searchText = "";
     },
     lang(val) {
-      this.makeSearch()
+      this.makeSearch();
       // this.$i18n.locale = val
+    }
   }
-}
 };
 </script>
 

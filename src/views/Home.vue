@@ -57,7 +57,7 @@ export default {
     lang(val) {
       // this.$i18n.locale = val
       this.fetchData();
-      console.log(this.$i18n.locale)
+      // console.log(this.$i18n.locale)
     }
   }
 };
